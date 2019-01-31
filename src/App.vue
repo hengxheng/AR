@@ -1,22 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <SliderBar v-on:changeSlider="changeBrightness" SliderTitle="Brightness" SliderText="Slide to adjust image brightness!" />
+    <div>{{ brightness }}</div>
+    <SliderBar v-on:changeSlider="changeContrast" SliderTitle="Contrast" SliderText="Slide to adjust image contrast!" />
+    <div>{{ contrast }}</div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SliderBar from './components/SliderBar';
 
 export default {
   name: 'app',
+  props: {
+    brightness: Number,
+    contrast: Number
+  },
+  data: function(){
+    return {
+      b: this.brightness,
+      c: this.contrast
+    }
+  },
   components: {
-    HelloWorld
+    SliderBar
+  },
+  methods: {
+    changeBrightness(b) {
+      this.brightness = b;
+    },
+    changeContrast(c){
+      this.contrast = c;
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
