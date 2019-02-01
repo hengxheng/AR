@@ -1,5 +1,4 @@
 <!-- HTML Template -->
-<!-- https://www.academind.com/learn/vue-js/snippets/image-upload/ -->
 <template>
   <div class="img-uploader-wrapper">
     <div class="container">
