@@ -13,12 +13,20 @@ export default {
   data: function(){
     return{
       // img: this.image,
+      window: {
+        width: 0,
+        height: 0
+      }
     }
+  },
+  created: function(){
+    this.window.width = window.innerWidth;
+    this.window.height = window.innerHeight;
   },
   watch: {
     img: function(newValue) {
       this.updateCanvasImage(newValue)
-    },
+    }
   },
   methods:{
     updateCanvasImage(img) {
@@ -34,18 +42,20 @@ export default {
       reader.readAsDataURL(img);
     },
     drawCanvasImage(img) {
-      var canvas = this.$refs.imageCanvas;
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      var ctx = canvas.getContext('2d');
-      ctx.drawImage(img,0,0);
+      let canvas = this.$refs.imageCanvas;
+      let imageRatio = img.height/img.width;
+      canvas.width = this.window.width
+      canvas.height = this.window.width * imageRatio;
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
     },
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="sass" scoped>
-
+<style lang="scss" scoped>
+  #imageCanvas {
+    width: 100%;
+  }
 </style>
