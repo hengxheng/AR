@@ -57,5 +57,6 @@ export default {
 <style lang="scss" scoped>
   #imageCanvas {
     width: 100%;
+    height: 10px;
   }
 </style>
