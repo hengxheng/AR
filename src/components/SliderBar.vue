@@ -4,7 +4,7 @@
             <h2>{{ SliderTitle }}</h2>
         </div>
         <div class="slider-main">
-            <input type="range" min="-50" max="50" class="slider" v-model="SliderVal" v-on:input="changeSlider"/>
+            <input type="range" min="-50" max="50" class="slider" @input="changeSlider"/>
         </div>
         <div class="slider-footer">
             <p>{{ SliderText }}</p>
@@ -19,14 +19,9 @@ export default {
             SliderTitle: String,
             SliderText: String,
         },
-    data: function(){
-        return {
-            SliderVal
-        }
-    },
     methods: {
             changeSlider() {
-                this.$emit('changeSlider', this.SliderVal);
+                this.$emit('changeSlider', event.target.value);
             }
         }
 }
