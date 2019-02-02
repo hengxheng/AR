@@ -2,13 +2,11 @@
   <div id="app">
     <div id="brightness-control">
       <SliderBar v-on:changeSlider="changeBrightness" SliderTitle="Brightness" SliderText="Slide to adjust image brightness!" />
-      <div>{{ b }}</div>
     </div>
     <div id="contrast-control">
       <SliderBar v-on:changeSlider="changeContrast" SliderTitle="Contrast" SliderText="Slide to adjust image contrast!" />
-      <div>{{ c }}</div>
     </div>
-    <ImageBoard v-bind:img="i" />
+    <ImageBoard v-bind:img="i" v-bind:effect="effect" v-bind:brightness="effect.brightness" v-bind:contrast="effect.contrast"/>
     <ImageUploader @imageUploaded="imageUploaded"/>
   </div>
 </template>
@@ -21,14 +19,18 @@
   export default {
     name: 'app',
     props: {
-      brightness: Number,
-      contrast: Number,
+      brightness: {
+        defualt: 0,
+        type: Number,
+      },
       imgFile: Object,
     },
     data: function(){
       return {
-        b: this.brightness,
-        c: this.contrast,
+        effect: {
+          brightness: 25,
+          contrast: 25
+        },
         i: this.imgFile,
       }
     },
@@ -39,10 +41,10 @@
     },
     methods: {
       changeBrightness(b) {
-        this.b = b;
+        this.effect.brightness = parseInt(b);
       },
       changeContrast(c){
-        this.c = c;
+        this.effect.contrast = parseInt(c);
       },
       imageUploaded(image){
         this.i = image;
@@ -58,6 +60,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 60px;
+    width: 800px;
+    margin:0 auto;
   }
 </style>

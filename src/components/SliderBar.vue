@@ -4,7 +4,7 @@
             <h2>{{ SliderTitle }}</h2>
         </div>
         <div class="slider-main">
-            <input type="range" min="-50" max="50" class="slider" @input="changeSlider"/>
+            <input type="range" min="0" max="50" class="slider" value="25" @input="changeSlider"/>
         </div>
         <div class="slider-footer">
             <p>{{ SliderText }}</p>

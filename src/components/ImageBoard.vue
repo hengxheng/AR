@@ -1,6 +1,9 @@
 <template>
   <div class="image-board-wrapper">
-    <canvas id="imageCanvas" ref="imageCanvas"></canvas>
+    <div>{{ effect.brightness }} {{ effect.contrast }}</div>
+    <div id="canvasContainer" ref="canvasContainer">
+      <canvas id="imageCanvas" ref="imageCanvas"></canvas>
+    </div>
   </div>
 </template>
 
@@ -8,24 +11,29 @@
 export default {
   name: 'ImageBoard',
   props: {
-    img: File
+    img: File,
+    effect: Object,
+    brightness: Number,
+    contrast: Number
   },
   data: function(){
     return{
-      // img: this.image,
-      window: {
-        width: 0,
-        height: 0
-      }
+      imgData: {},
     }
   },
-  created: function(){
-    this.window.width = window.innerWidth;
-    this.window.height = window.innerHeight;
-  },
   watch: {
-    img: function(newValue) {
-      this.updateCanvasImage(newValue)
+    img: function(img) {
+      this.updateCanvasImage(img);
+    },
+    // effect: function(effect){
+    //   console.log(effect);
+    //   this.adjustBrightness(this.imageData, effect.brightness);
+    // },
+    brightness: function(b){
+      this.adjustBrightness(b);
+    },
+    contrast: function(c){
+      this.adjustContrast(c);
     }
   },
   methods:{
@@ -41,14 +49,45 @@ export default {
       };
       reader.readAsDataURL(img);
     },
+
     drawCanvasImage(img) {
       let canvas = this.$refs.imageCanvas;
-      let imageRatio = img.height/img.width;
-      canvas.width = this.window.width
-      canvas.height = this.window.width * imageRatio;
       let ctx = canvas.getContext('2d');
+      let imageRatio = img.height/img.width;
+      canvas.width = this.$refs.canvasContainer.offsetWidth;
+      canvas.height = canvas.width * imageRatio;
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
     },
+
+    adjustBrightness(brightness){
+      let canvas = this.$refs.imageCanvas;
+      let ctx = canvas.getContext('2d');
+      let imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+
+      var d = imgData.data;
+      for (var i=0; i<d.length; i+=4) {
+        d[i] += brightness;
+        d[i+1] += brightness;
+        d[i+2] += brightness;
+      }
+      ctx.putImageData(imgData, 0, 0);
+    },
+
+    adjustContrast(contrast){
+      let canvas = this.$refs.imageCanvas;
+      let ctx = canvas.getContext('2d');
+      let imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+
+      var d = imgData.data;
+      contrast = (contrast/100) + 1;  //convert to decimal & shift range: [0..2]
+      var intercept = 128 * (1 - contrast);
+      for(var i=0;i<d.length;i+=4){   //r,g,b,a
+          d[i] = d[i]*contrast + intercept;
+          d[i+1] = d[i+1]*contrast + intercept;
+          d[i+2] = d[i+2]*contrast + intercept;
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
   }
 }
 </script>
@@ -57,6 +96,5 @@ export default {
 <style lang="scss" scoped>
   #imageCanvas {
     width: 100%;
-    height: 10px;
   }
 </style>
