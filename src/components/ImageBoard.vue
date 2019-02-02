@@ -1,6 +1,5 @@
 <template>
   <div class="image-board-wrapper">
-    <div>{{ effect.brightness }} {{ effect.contrast }}</div>
     <div id="canvasContainer" ref="canvasContainer">
       <canvas id="imageCanvas" ref="imageCanvas"></canvas>
     </div>
@@ -25,15 +24,11 @@ export default {
     img: function(img) {
       this.updateCanvasImage(img);
     },
-    // effect: function(effect){
-    //   console.log(effect);
-    //   this.adjustBrightness(this.imageData, effect.brightness);
-    // },
-    brightness: function(b){
-      this.adjustBrightness(b);
+    brightness: function(b1, b2){
+      this.adjustBrightness(b1-b2);
     },
-    contrast: function(c){
-      this.adjustContrast(c);
+    contrast: function(c1, c2){
+      this.adjustContrast(c1-c2);
     }
   },
   methods:{
