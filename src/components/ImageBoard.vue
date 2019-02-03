@@ -11,13 +11,14 @@ export default {
   name: 'ImageBoard',
   props: {
     img: File,
-    effect: Object,
     brightness: Number,
     contrast: Number
   },
   data: function(){
     return{
       imgData: {},
+      myCanvas: {},
+      myCTX: {},
     }
   },
   watch: {
@@ -93,5 +94,7 @@ export default {
     width: 100%;
     display: block;
     background: #a2a2a2;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
   }
 </style>

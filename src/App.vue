@@ -9,7 +9,7 @@
       </div>
       <div class="image-block">
           <div class="image-block-inner">
-            <ImageBoard v-bind:img="i" v-bind:effect="effect" v-bind:brightness="effect.brightness" v-bind:contrast="effect.contrast"/>
+            <ImageBoard :img="i" :brightness="effect.brightness" :contrast="effect.contrast"/>
             <ImageUploader @imageUploaded="imageUploaded"/>
           </div>
       </div>

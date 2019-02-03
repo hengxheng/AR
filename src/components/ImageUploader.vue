@@ -24,7 +24,6 @@
     name: 'ImageUploader',
     methods: {
       onFileChange(event) {
-        // handle file changes
         let image = event.target.files[0];
         this.$emit('imageUploaded', image);
       }
@@ -32,7 +31,6 @@
   }
 </script>
 
-<!-- SASS styling -->
 <style lang="scss">
   $blue: #5D83BF;
   $green: #23A15E;
