@@ -91,5 +91,7 @@ export default {
 <style lang="scss" scoped>
   #imageCanvas {
     width: 100%;
+    display: block;
+    background: #a2a2a2;
   }
 </style>

@@ -7,8 +7,12 @@
       <div id="contrast-control">
         <SliderBar @changeSlider="changeContrast" SliderTitle="Contrast" SliderText="Slide to adjust image contrast!" />
       </div>
-      <ImageBoard v-bind:img="i" v-bind:effect="effect" v-bind:brightness="effect.brightness" v-bind:contrast="effect.contrast"/>
-      <ImageUploader @imageUploaded="imageUploaded"/>
+      <div class="image-block">
+          <div class="image-block-inner">
+            <ImageBoard v-bind:img="i" v-bind:effect="effect" v-bind:brightness="effect.brightness" v-bind:contrast="effect.contrast"/>
+            <ImageUploader @imageUploaded="imageUploaded"/>
+          </div>
+      </div>
   </div>
 </template>
 
@@ -53,7 +57,7 @@
   $purple: #7144C3;
   $green: #23A15E;
   $blue: #5D83BF;
-
+  $inner-width: 90%;
   body{
     background: #000;
   }
@@ -65,7 +69,54 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    width: 800px;
-    margin:0 auto;
+    width: 650px;
+    margin:25px auto;
+    padding-bottom: 30px;
+  }
+
+  #brightness-control{
+    .slider-header{
+      h2{
+        color:$green;
+      }
+    }
+    input[type=range]{
+      &::-webkit-slider-thumb {
+          background: $green;
+      }
+      &::-webkit-slider-runnable-track {
+        background: $green;
+      }
+
+      &:focus::-webkit-slider-runnable-track {
+        background: $green;
+      }
+    }
+  }
+
+  #contrast-control{
+    .slider-header{
+      h2{
+        color:$blue;
+      }
+    }
+    input[type=range]{
+      &::-webkit-slider-thumb {
+          background: $blue;
+      }
+      &::-webkit-slider-runnable-track {
+        background: $blue;
+      }
+
+      &:focus::-webkit-slider-runnable-track {
+        background: $green;
+      }
+    }
+  }
+  
+  .image-block{
+    width: $inner-width;
+    margin:30px auto 15px;
+    border-radius: 5px;
   }
 </style>
