@@ -15,7 +15,7 @@ export default {
     contrast: Number
   },
   data: function(){
-    return{
+    return {
       imgData: {},
       myCanvas: {},
       myCTX: {},
@@ -34,10 +34,10 @@ export default {
   },
   methods:{
     updateCanvasImage(img) {
-      var self = this;
-      var reader = new FileReader();
+      let self = this;
+      let reader = new FileReader();
       reader.onload = () => {
-          var imgObj = new Image();
+          let imgObj = new Image();
           imgObj.onload = function() {
               self.drawCanvasImage(imgObj);
           }
@@ -47,42 +47,37 @@ export default {
     },
 
     drawCanvasImage(img) {
-      let canvas = this.$refs.imageCanvas;
-      let ctx = canvas.getContext('2d');
+      this.myCanvas = this.$refs.imageCanvas;
+      this.myCTX = this.myCanvas.getContext('2d');
+
       let imageRatio = img.height/img.width;
-      canvas.width = this.$refs.canvasContainer.offsetWidth;
-      canvas.height = canvas.width * imageRatio;
-      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      this.myCanvas.width = this.$refs.canvasContainer.offsetWidth;
+      this.myCanvas.height = this.myCanvas.width * imageRatio;
+      this.myCTX.drawImage(img,0,0,this.myCanvas.width,this.myCanvas.height);
+
+      this.imgData = this.myCTX.getImageData(0,0,this.myCanvas.width,this.myCanvas.height);
     },
 
     adjustBrightness(brightness){
-      let canvas = this.$refs.imageCanvas;
-      let ctx = canvas.getContext('2d');
-      let imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
-
-      var d = imgData.data;
-      for (var i=0; i<d.length; i+=4) {
+      let d = this.imgData.data;
+      for (let i=0; i<d.length; i+=4) {
         d[i] += brightness;
         d[i+1] += brightness;
         d[i+2] += brightness;
       }
-      ctx.putImageData(imgData, 0, 0);
+      this.myCTX.putImageData(this.imgData, 0, 0);
     },
 
     adjustContrast(contrast){
-      let canvas = this.$refs.imageCanvas;
-      let ctx = canvas.getContext('2d');
-      let imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
-
-      var d = imgData.data;
+      let d =  this.imgData.data;
       contrast = (contrast/100) + 1;  //convert to decimal & shift range: [0..2]
-      var intercept = 128 * (1 - contrast);
-      for(var i=0;i<d.length;i+=4){   //r,g,b,a
+      let intercept = 128 * (1 - contrast);
+      for(let i=0;i<d.length;i+=4){   //r,g,b,a
           d[i] = d[i]*contrast + intercept;
           d[i+1] = d[i+1]*contrast + intercept;
           d[i+2] = d[i+2]*contrast + intercept;
       }
-      ctx.putImageData(imgData, 0, 0);
+      this.myCTX.putImageData(this.imgData, 0, 0);
     }
   }
 }

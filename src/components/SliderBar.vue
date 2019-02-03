@@ -4,7 +4,7 @@
             <h2>{{ SliderTitle }}</h2>
         </div>
         <div class="slider-main">
-            <input type="range" min="-50" max="50" class="adjust-range" value="0" @input="changeSlider"/>
+            <input type="range" min="-30" max="30" class="adjust-range" value="0" @input="changeSlider"/>
         </div>
         <div class="slider-footer">
             <p>{{ SliderText }}</p>
@@ -16,14 +16,14 @@
 export default {
     name: 'SliderBar',
     props: {
-            SliderTitle: String,
-            SliderText: String,
-        },
+        SliderTitle: String,
+        SliderText: String,
+    },
     methods: {
-            changeSlider() {
-                this.$emit('changeSlider', event.target.value);
-            }
+        changeSlider() {
+            this.$emit('changeSlider', event.target.value);
         }
+    }
 }
 </script>
 
